@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -6,10 +5,10 @@
 #include <termio.h>
 
 #include <opencv2/highgui/highgui.hpp>
-
+#include <opencv2/imgproc/imgproc.hpp>
 #include "../../../../CqUsbCam_Linux/CqUsbCam/CqUsbCam.h"
 #include "../../../../CqUsbCam_Linux/CqUsbCam/SensorCapbablity.h"
-
+#include "Pintai.h"
 
 
 #define MAIN_RESOLU_SELECT	 	'a'
@@ -75,12 +74,28 @@ int g_byteBitDepthNo=1;
 
 pthread_mutex_t mutexDisp;
 pthread_mutex_t mutexCam;
-
+CCameraCtrl camctrl;
+char*imgBuf = NULL;
+int show_channel=0;
 void Disp(void* frameData)
 {
 	pthread_mutex_lock(&mutexDisp);
+	int offset = 0;
+	int imglen = camctrl.cam[0].height * camctrl.cam[0].width*2;
+	if (imgBuf == NULL)
+	{
+		imgBuf = new char[imglen];
+	}
+	if (show_channel > camctrl.CAM_NUM - 1)
+	{
+		show_channel = camctrl.CAM_NUM - 1;
+	}
+	memcpy(imgBuf, frameData + imglen * show_channel, imglen);
 	cv::Mat frame(g_height, g_width, (g_byteBitDepthNo==1? CV_8UC1: CV_16UC1), (unsigned char*)frameData);	
-	cv::imshow("disp",frame);
+	cv::Mat bgrframe(frame);
+	cv::cvtColor(frame, bgrframe, cv::COLOR_YUV2BGR_UYVY);
+
+	cv::imshow("disp",bgrframe);
 	cv::waitKey(10);
 	pthread_mutex_unlock(&mutexDisp);
 
@@ -410,7 +425,8 @@ int main(int argc, char *argv[])
 			case MAIN_CAPTURE:
 				{
 					cv::namedWindow("disp",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
-					cam0.StartCap(g_height,  (g_byteBitDepthNo==1? g_width: g_width*2), Disp);
+					//cam0.StartCap(g_height,  (g_byteBitDepthNo==1? g_width: g_width*2), Disp);
+					cam0.StartCap(camctrl.getTotalDataLen(), 2, Disp);
 					signal(SIGALRM, timerFunction);
 					alarm(1);
 
