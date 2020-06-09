@@ -79,9 +79,9 @@ char*imgBuf = NULL;
 int show_channel=0;
 void Disp(void* frameData)
 {
-	pthread_mutex_lock(&mutexDisp);
+	//pthread_mutex_lock(&mutexDisp);
 	int offset = 0;
-	int imglen = camctrl.cam[0].height * camctrl.cam[0].width*2;
+	int imglen = camctrl.cam[0].height * camctrl.cam[0].width;
 	if (imgBuf == NULL)
 	{
 		imgBuf = new char[imglen];
@@ -90,14 +90,14 @@ void Disp(void* frameData)
 	{
 		show_channel = camctrl.CAM_NUM - 1;
 	}
-	memcpy(imgBuf, frameData + imglen * show_channel, imglen);
-	cv::Mat frame(g_height, g_width, CV_8UC2, imgBuf);	
+	memcpy(imgBuf, frameData+imglen*show_channel, imglen);
+	cv::Mat frame( camctrl.cam[0].height , camctrl.cam[0].width, CV_8UC1, imgBuf);	
 	cv::Mat bgrframe(frame);
-	cv::cvtColor(frame, bgrframe, cv::COLOR_YUV2BGR_UYVY);
+	cv::cvtColor(frame, bgrframe, cv::COLOR_BayerBG2BGR);
 
 	cv::imshow("disp",bgrframe);
-	cv::waitKey(10);
-	pthread_mutex_unlock(&mutexDisp);
+	cv::waitKey(1);
+	//pthread_mutex_unlock(&mutexDisp);
 
 }
 
@@ -212,6 +212,8 @@ int main(int argc, char *argv[])
 				\'j\':	Set auto-gain-expo function\n\
 				\n\
 				\'l\':	Begin to capture\n\
+				\'m\':	Stop cap\n\
+				\'p\':	Display channel\n\
 				\n\
 				\'n\':	Set analog gain while in auto trig mode\n\
 				\'0\':	Set analog gain while in FPGA trig mode\n\
@@ -427,17 +429,16 @@ int main(int argc, char *argv[])
 					cv::namedWindow("disp",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
 					//cam0.StartCap(g_height,  (g_byteBitDepthNo==1? g_width: g_width*2), Disp);
 					printf("datalen:%d\n",camctrl.getTotalDataLen());
-					cam0.StartCap(camctrl.getTotalDataLen(), 2, Disp);
+					cam0.StartCap(camctrl.getTotalDataLen(), 1, Disp);
 					
 					signal(SIGALRM, timerFunction);
 					alarm(1);
 
-					printf("Press any key to stop capturing\n");
-
-
-					getchar();
-
-
+					printf("Press 'm' to stop capturing\n");
+					break;
+				}
+				case 'm':
+				{
 					pthread_mutex_lock(&mutexCam);
 					alarm(0);
 					cam0.StopCap();
@@ -450,11 +451,20 @@ int main(int argc, char *argv[])
 					cv::waitKey(1);
 					cv::waitKey(1);
 					pthread_mutex_unlock(&mutexDisp);
-
-
-
-					break;
+				
+				break;
 				}
+
+				case 'p':
+				{
+					char s=getchar();
+					if(s>='0'&&s<'4')
+					{
+						show_channel=s-'0';
+					}
+					printf("channel: %c",s);
+				}
+				break;
 			case MAIN_ANALOG_GAIN_AUTO_TRIG:
 				{
 					printf("Please input your choice ...\n");

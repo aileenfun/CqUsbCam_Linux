@@ -369,7 +369,9 @@ cq_int32_t CCqUsbCam::RdFpgaReg(const cq_uint32_t 	iAddr, cq_uint32_t &iValue)
 
 void CCqUsbCam::GetRecvByteCnt(cq_uint64_t& byteCnt)
 {
-	byteCnt=m_pDataCap->m_lRecvByteCnt;
+	float temp=0;
+	temp=m_pDataCap->m_lRecvByteCnt*1.2;
+	byteCnt=(cq_uint64_t)temp;
 }
 void CCqUsbCam::ClearRecvByteCnt()
 {
@@ -377,7 +379,10 @@ void CCqUsbCam::ClearRecvByteCnt()
 }
 void CCqUsbCam::GetRecvFrameCnt(cq_uint64_t& frameCnt)
 {
-	frameCnt=m_pDataCap->m_lRecvFrameCnt;
+	float temp=0;
+	temp=m_pDataCap->m_lRecvFrameCnt*1.2;
+	frameCnt=(cq_uint64_t)temp;
+
 }
 void CCqUsbCam::ClearRecvFrameCnt()
 {

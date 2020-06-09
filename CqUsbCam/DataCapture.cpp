@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include "Types.h"
-
+//#define _USE752
 
 CDataCapture::CDataCapture(const cq_uint32_t iWidth, const cq_uint32_t iHeight)
 {
@@ -71,7 +71,14 @@ cq_int32_t CDataCapture::Open()
 	m_pReadBuff=NULL;
 	try
 	{
-		m_pReadBuff=new cq_uint8_t[m_iWidth*m_iHeight+512];
+		#ifdef _USB752
+		
+		readBuffLen=361472
+		#else
+		readBuffLen=1024*1024*4;
+		
+		#endif
+		m_pReadBuff=new cq_uint8_t[readBuffLen];
 	}
 	catch(const bad_alloc& e)
 	{
@@ -93,7 +100,6 @@ cq_int32_t CDataCapture::Open()
 
 	memset(m_pInData,0,(m_iWidth*m_iHeight+512)*4*sizeof(cq_byte_t));
 	memset(m_pOutData,0,(m_iWidth*m_iHeight+512)*sizeof(cq_byte_t));
-	memset(m_pReadBuff,0,(m_iWidth*m_iHeight+512)*sizeof(cq_byte_t));
 	
 	//memset(m_pInputframe,0,sizeof(CImgFrame));
 
@@ -183,12 +189,16 @@ void CDataCapture::ThreadFunc()
 	pthread_mutex_lock(&m_mutexThread);
 	while (true==m_bCapture)
 	{
-
-        cyusb_bulk_transfer(m_pUsbHandle, endpoint/*3.0 0x81, 2.0 0x86*/, m_pReadBuff, m_iWidth*m_iHeight+512, &transferred,100);
+		
+        int rst=cyusb_bulk_transfer(m_pUsbHandle, endpoint/*3.0 0x81, 2.0 0x86*/, m_pReadBuff, readBuffLen, &transferred,100);
         if(transferred>0)
 		{
 		    Input(m_pReadBuff,transferred);
 		    m_lRecvByteCnt+=transferred;
+		}
+		else
+		{
+			printf("read Usb error:%d",rst);
 		}
 		usleep(1);//deleted by qbc
 	}
