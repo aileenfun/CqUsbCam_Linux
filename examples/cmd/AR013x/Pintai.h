@@ -63,7 +63,7 @@ public:
 		camTotalNum = 0;
 		int rst = 0;
 		rst=m_sensorInUse->RdFpgaReg(0x92, camTotalNum);
-		
+		printf("camNumL%d",camTotalNum);
 	}
 	
 	int getCamRes()

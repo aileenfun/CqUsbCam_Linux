@@ -91,7 +91,7 @@ void Disp(void* frameData)
 		show_channel = camctrl.CAM_NUM - 1;
 	}
 	memcpy(imgBuf, frameData + imglen * show_channel, imglen);
-	cv::Mat frame(g_height, g_width, (g_byteBitDepthNo==1? CV_8UC1: CV_16UC1), (unsigned char*)frameData);	
+	cv::Mat frame(g_height, g_width, CV_8UC2, imgBuf);	
 	cv::Mat bgrframe(frame);
 	cv::cvtColor(frame, bgrframe, cv::COLOR_YUV2BGR_UYVY);
 
@@ -195,7 +195,7 @@ int main(int argc, char *argv[])
 	cam0.InitSensor();
 
 	pCamInUse=&cam0;
-
+	camctrl.init(pCamInUse);
 	while(1)
 	{
 		printf("Please input your choice ...\n");
@@ -426,7 +426,9 @@ int main(int argc, char *argv[])
 				{
 					cv::namedWindow("disp",CV_WINDOW_AUTOSIZE | CV_GUI_NORMAL);
 					//cam0.StartCap(g_height,  (g_byteBitDepthNo==1? g_width: g_width*2), Disp);
+					printf("datalen:%d\n",camctrl.getTotalDataLen());
 					cam0.StartCap(camctrl.getTotalDataLen(), 2, Disp);
+					
 					signal(SIGALRM, timerFunction);
 					alarm(1);
 
