@@ -183,12 +183,26 @@ int main(int argc, char *argv[])
 
 	int usbCnt=CCqUsbCam::OpenUSB();
 	printf("%d usb device(s) found!\n", usbCnt);
+	int iusbnum=0;
 	if(usbCnt<=0)
 	{
 		printf("exiting ...\n");
 		return -1;
 	}
-	cam0.ClaimInterface(0);
+	if(usbCnt>1)
+	{
+		printf("Chose 1~%d\n",usbCnt);
+		char cusb=getchar();
+		int iusbnum=cusb-'0';
+		if(iusbnum>usbCnt||iusbnum<1)
+		{
+			printf("bad choice.\n");
+			return -1;
+		}
+		iusbnum--;
+	}
+	
+	cam0.ClaimInterface(iusbnum);
 
 	checkspeed();
 
