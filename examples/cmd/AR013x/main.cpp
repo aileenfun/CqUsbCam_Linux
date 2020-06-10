@@ -193,15 +193,15 @@ int main(int argc, char *argv[])
 	{
 		printf("Chose 1~%d\n",usbCnt);
 		char cusb=getchar();
-		int iusbnum=cusb-'0';
+		iusbnum=cusb-'0';
 		if(iusbnum>usbCnt||iusbnum<1)
 		{
 			printf("bad choice.\n");
 			return -1;
 		}
-		iusbnum--;
+		iusbnum=iusbnum-1;
 	}
-	
+
 	cam0.ClaimInterface(iusbnum);
 
 	checkspeed();
