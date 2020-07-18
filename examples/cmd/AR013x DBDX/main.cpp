@@ -88,7 +88,10 @@ vector<cv::Mat> imageRGB;
 
 void Disp(void* frameData)
 {
-	pthread_mutex_lock(&mutexDisp);
+	//pthread_mutex_lock(&mutexDisp);
+	
+
+	
 	CImgFrame* imgframe = (CImgFrame*)frameData;
 	int offset = 0;
 	int imglen = camctrl.cam[0].height * camctrl.cam[0].width;
@@ -148,7 +151,8 @@ void Disp(void* frameData)
 		cv::merge(imageRGB, frameOut);
 		cv::imshow("disp2", frameOut);
 		cv::waitKey(10);
-	pthread_mutex_unlock(&mutexDisp);
+	
+	//pthread_mutex_unlock(&mutexDisp);
 
 }
 
@@ -255,25 +259,14 @@ int main(int argc, char *argv[])
 	{
 		printf("Please input your choice ...\n");
 		printf("\
-				\'a\':	Select resolution\n\
-				\'b\':	Select bit depth\n\
-				\'c\':	Select proc type\n\
-				\'d\':	Check speed\n\
-				\'e\':	Set auto trig mode\n\
-				\'f\':	Set fpga trig mode\n\
-				\'g\':	Set fpga trig frequency\n\
-				\'h\':	Set expo value\n\
-				\'i\':	Set gain value\n\
-				\'j\':	Set auto-gain-expo function\n\
+				\'a\':	Select Camera\n\
+				\'b\':	Set Auto Gain, Auto Expo(0,2)\n\
+				\'c\':	Set Expo(0~65535)\n\
+				\'d\':	Set Gain(0~65535)\n\
+				\'e\':	Set Mirror(default:0,X:4,Y:8,XY:12)\n\
+				\'f\':	Set Analog Gain(1,2,4,8)\n\
 				\n\
 				\'l\':	Begin to capture\n\
-				\n\
-				\'n\':	Set analog gain while in auto trig mode\n\
-				\'0\':	Set analog gain while in FPGA trig mode\n\
-				\'F\':	Write sensor\n\
-				\'G\':	Read sensor\n\
-				\'H\':	Write FPGA\n\
-				\'I\':	Read FPGA\n\
 				\n\
 				\'z\':	Exit\n"\
 				);
@@ -282,180 +275,34 @@ int main(int argc, char *argv[])
 		printf("Your choice is %c\n", ch);
 		switch(ch)
 		{
-			case MAIN_RESOLU_SELECT:
+			case 'a':
 				{
-					printf("Please input your choice ...\n");
-					printf("\
-							\'0\':	1280x720\n\
-							\'1\':	1280x960\n\
-							\'2\':	640x480 in skip mode\n\
-							\'3\':	640x480 in binning mode\n"\
-					      );
-					char ch=getchar();
-					getchar();	
-					printf("Your choice is %c\n", ch);
-					switch(ch)
-					{
-						case MAIN_RESOLU_1280_720:
-							pCamInUse->SetResolution(RESOLU_1280_720);
-							g_width=1280;
-							g_height=720;
-							break;
-						case MAIN_RESOLU_1280_960:
-							pCamInUse->SetResolution(RESOLU_1280_960);
-							g_width=1280;
-							g_height=960;
-							break;
-						case MAIN_RESOLU_640_480SKIP:
-							pCamInUse->SetResolution(RESOLU_640_480_SKIP);
-							g_width=640;
-							g_height=480;
-							break;
-						case MAIN_RESOLU_640_480BIN:
-							pCamInUse->SetResolution(RESOLU_640_480_BIN);
-							g_width=640;
-							g_height=480;
-							break;
-						default:
-							printf("Bad inut ...");
-					}
-					break;
-				}
-			case MAIN_BITDEPTH_SELECT:
-				{
-					printf("Please input your choice ...\n");
-					printf("\
-							\'0\':	8 bit depth\n\
-							\'1\':	16 bit depth\n\
-							\'2\':	L8 bit depth\n"\
-					      );
-					char ch=getchar();
-					getchar();
-					printf("Your choice is %c\n", ch);
-					switch(ch)
-					{
-						case MAIN_BITDEPTH_8:
-							pCamInUse->SetBitDepth(BITDEPTH_8);
-							g_byteBitDepthNo=1;
-							printf("g_byteBitDepthNo is %d\n", g_byteBitDepthNo);
-							break;
-						case MAIN_BITDEPTH_16:
-							pCamInUse->SetBitDepth(BITDEPTH_16);
-							g_byteBitDepthNo=2;
-							printf("g_byteBitDepthNo is %d\n", g_byteBitDepthNo);
-							break;
-						case MAIN_BITDEPTH_L8:
-							pCamInUse->SetBitDepth(BITDEPTH_16_2);
-							g_byteBitDepthNo=2;
-							printf("g_byteBitDepthNo is %d\n", g_byteBitDepthNo);
-							break;
-						default:
-							printf("Bad inut ...\n");
-					}
-					break;			
-				}
-			case MAIN_PROCTYPE_SELECT:
-				{
-					printf("Please input your choice ...\n");
-					printf("\
-							\'0\':	Normal\n\
-							\'1\':	X mirror\n\
-							\'2\':	Y mirror\n\
-							\'3\':	XY mirror\n"\
-					      );
-
-					char ch=getchar();
-					getchar();
-					printf("Your choice is %c", ch);
-					switch(ch)
-					{
-						case MAIN_PROCTYPE_N:
-							pCamInUse->SetMirrorType(MIRROR_NORMAL);
-							break;
-						case MAIN_PROCTYPE_X:
-							pCamInUse->SetMirrorType(MIRROR_X);
-							break;
-						case MAIN_PROCTYPE_Y:
-							pCamInUse->SetMirrorType(MIRROR_Y);
-							break;
-						case MAIN_PROCTYPE_XY:
-							pCamInUse->SetMirrorType(MIRROR_XY);
-							break;
-						default:
-							printf("Bad inut ...\n");
-					}
-					break;
-				}
-			case MAIN_CHECK_SPEED:
-				{
-					unsigned int speed = 0;
-					pCamInUse->GetUsbSpeed(speed);
-					if(speed==LIBUSB_SPEED_SUPER)
-					{
-						printf("USB 3.0 device found!\n");
-						pCamInUse->SendUsbSpeed2Fpga(USB_SPEED_SUPER);
-					}
-					else if(speed==LIBUSB_SPEED_HIGH)
-					{
-						printf("USB 2.0 device found!\n");
-						pCamInUse->SendUsbSpeed2Fpga(USB_SPEED_HIGH);
-					}
-					else
-					{
-						printf("Device speed unknown!\n");
-					}
-					break;
-				}
-			case MAIN_TRIGMODE_AUTO:
-				pCamInUse->SetTrigMode(TRIGMODE_AUTO);
-				break;
-			case MAIN_TRIGMODE_FPGA:
-				pCamInUse->SetTrigMode(TRIGMODE_FPGA);
-				break;
-			case MAIN_FPGA_TRIG_FREQ_SELECT:
-				{
-					printf("Please input the trig frequency (Dec, 0~45), make sure the device is in FPGA trig mode\n");
+					printf("select cameara (Dec, 0,1,2)\n");
 					char str[10];
 					memset(str,0,sizeof(str));
-					fgets(str, 9,stdin);
-					unsigned int freq=atoi(str);
-					printf("Your input is %d \n", freq);
-					pCamInUse->SetFpgaTrigFreq(freq);	
-					break;				
-				}
-			case MAIN_AUTO_GAIN_EXPO_SELECT:
-				{
-					printf("Please input your choice ...\n");
-					printf("\
-							\'0\':	Manual 	gain, Manual 	expo\n\
-							\'1\':	Manual 	gain, Auto 	expo\n\
-							\'2\':	Auto	gain, Manual 	expo\n\
-							\'3\':	Auto 	gain, Auto	expo\n"\
-					      );
-					char ch=getchar();
-					getchar();
-					printf("Your choice is %c\n", ch);
-					switch(ch)
+					fgets(str,9,stdin);
+					unsigned int cameraValue=atoi(str);
+					printf("Your input is %d \n", cameraValue);
+					for (int i = 0; i < 3; i++)
 					{
-						case '0':
-							pCamInUse->SetAutoGainExpo(false, false);
-							break;
-						case '1':
-							pCamInUse->SetAutoGainExpo(false, true);
-							break;
-						case '2':
-							pCamInUse->SetAutoGainExpo(true, false);
-							break;
-						case '3':
-							pCamInUse->SetAutoGainExpo(true, true);
-							break;
-						default:
-							printf("Bad inut ...\n");					
+						camctrl.cam[i].checked = 0;
 					}
+					camctrl.cam[cameraValue].checked = 1;
+					
 					break;
 				}
-
-			case MAIN_EXPO_VALUE_SELECT:
+			case 'b':
+				{
+					printf("select auto Gain auto expo (Dec, 0 close,2, open)\n");
+					char str[10];
+					memset(str,0,sizeof(str));
+					fgets(str,9,stdin);
+					unsigned int cameraValue=atoi(str);
+					printf("Your input is %d \n", cameraValue);
+					camctrl.setCamFunction(0, cameraValue);
+					break;			
+				}
+			case 'c':
 				{
 					printf("Please input the expo value (Dec, 0~65536)\n");
 					char str[10];
@@ -463,10 +310,10 @@ int main(int argc, char *argv[])
 					fgets(str,9,stdin);
 					unsigned int expoValue=atoi(str);
 					printf("Your input is %d \n", expoValue);
-					pCamInUse->SetExpoValue(expoValue);
+					camctrl.setCamFunction(1, expoValue);
 					break;
 				}
-			case MAIN_GAIN_VALUE_SELECT:
+			case 'd':
 				{
 					printf("Please input the gain value (Dec, 0~64)\n");
 					char str[10];
@@ -474,9 +321,31 @@ int main(int argc, char *argv[])
 					fgets(str,9,stdin);
 					unsigned int gainValue=atoi(str);
 					printf("Your input is %d \n", gainValue);
-					pCamInUse->SetGainValue(gainValue);
+					camctrl.setCamFunction(2, gainValue);
 					break;
 				}		
+			case 'e':
+				{
+					printf("Set Mirror(default:0,X:4,Y:8,XY:12)\n");
+					char str[10];
+					memset(str,0,sizeof(str));
+					fgets(str,9,stdin);
+					unsigned int v=atoi(str);
+					printf("Your input is %d \n", v);
+					camctrl.setCamFunction(3, v);
+					break;
+				}	
+				case 'f':
+				{
+					printf("Set Analog Gain(1,2,4,8)\n");
+					char str[10];
+					memset(str,0,sizeof(str));
+					fgets(str,9,stdin);
+					unsigned int v=atoi(str);
+					printf("Your input is %d \n", v);
+					camctrl.setCamFunction(4, v);
+					break;
+				}	
 			case MAIN_CAPTURE:
 				{
 					camctrl.setGenFunction(0, 3);
@@ -511,126 +380,7 @@ int main(int argc, char *argv[])
 
 					break;
 				}
-			case MAIN_ANALOG_GAIN_AUTO_TRIG:
-				{
-					printf("Please input your choice ...\n");
-					printf("\
-							\'1\':	1x\n\
-							\'2\':	2x\n\
-							\'4\':	4x\n\
-							\'8\':	8x\n"\
-					      );
-					char ch=getchar();
-					getchar();
-					printf("Your choice is %c\n", ch);
-					switch(ch)
-					{
-						case MAIN_ANALOG_GAIN_1X:
-							pCamInUse->SetAnalogGain(TRIGMODE_AUTO, ANALOGGAIN_1X);
-							break;
-						case MAIN_ANALOG_GAIN_2X:
-							pCamInUse->SetAnalogGain(TRIGMODE_AUTO, ANALOGGAIN_2X);
-							break;
-						case MAIN_ANALOG_GAIN_4X:
-							pCamInUse->SetAnalogGain(TRIGMODE_AUTO, ANALOGGAIN_4X);
-							break;
-						case MAIN_ANALOG_GAIN_8X:
-							pCamInUse->SetAnalogGain(TRIGMODE_AUTO, ANALOGGAIN_8X);
-							break;
-						default:
-							printf("Bad inut ...");
-					}
-					break;
-				}
-			case MAIN_ANALOG_GAIN_FPGA_TRIG:
-				{
-					printf("Please input your choice ...\n");
-					printf("\
-							\'1\':	1x\n\
-							\'2\':	2x\n\
-							\'4\':	4x\n\
-							\'8\':	8x\n"\
-					      );
-					char ch=getchar();
-					getchar();
-					printf("Your choice is %c\n", ch);
-					switch(ch)
-					{
-						case MAIN_ANALOG_GAIN_1X:
-							pCamInUse->SetAnalogGain(TRIGMODE_FPGA, ANALOGGAIN_1X);
-							break;
-						case MAIN_ANALOG_GAIN_2X:
-							pCamInUse->SetAnalogGain(TRIGMODE_FPGA, ANALOGGAIN_2X);
-							break;
-						case MAIN_ANALOG_GAIN_4X:
-							pCamInUse->SetAnalogGain(TRIGMODE_FPGA, ANALOGGAIN_4X);
-							break;
-						case MAIN_ANALOG_GAIN_8X:
-							pCamInUse->SetAnalogGain(TRIGMODE_FPGA, ANALOGGAIN_8X);
-							break;
-						default:
-							printf("Bad inut ...");
-					}
-					break;
-				}
-			case MAIN_WRITE_SENSOR_REG:
-				{
-					printf("Please input the reg address (Hex. Just number, no \'0x\' needed))\n");
-					char str[10];
-					memset(str,0,sizeof(str));
-					fgets(str,9,stdin);
-					unsigned int iDecRegAddr=hex2dec(str);
-					printf("Your input is %x \n", iDecRegAddr);
-					printf("Please input the reg value (Hex. Just number, no \'0x\' needed))\n");
-					memset(str,0,sizeof(str));
-					fgets(str,9,stdin);
-					unsigned int iDecRegValue=hex2dec(str);
-					printf("Your input is %x \n", iDecRegValue);
-					pCamInUse->WrSensorReg(iDecRegAddr, iDecRegValue);
-					break;
-				}
-			case MAIN_READ_SENSOR_REG:
-				{
-					printf("Please input the reg address (Hex. Just number, no \'0x\' needed))\n");
-					char str[10];
-					memset(str,0,sizeof(str));
-					fgets(str,9,stdin);
-					unsigned int iDecRegAddr=hex2dec(str);
-					printf("Your input is %x \n", iDecRegAddr);
-					unsigned int iValue=0;
-					pCamInUse->RdSensorReg(iDecRegAddr, iValue);
-					printf("reg value is %04x\n", iValue&0xffff);
-					break;
-				}
-			case MAIN_WRITE_FPGA_REG:
-				{
-					printf("Please input the reg address (Hex. Just number, no \'0x\' needed))\n");
-					char str[10];
-					memset(str,0,sizeof(str));
-					fgets(str,9,stdin);
-					unsigned char iDecRegAddr=hex2dec(str);
-					printf("Your input is %x \n", iDecRegAddr);
-					printf("Please input the reg value (Hex. Just number, no \'0x\' needed))\n");
-					memset(str,0,sizeof(str));
-					fgets(str,9,stdin);
-					unsigned char iDecRegValue=hex2dec(str);
-					printf("Your input is %x \n", iDecRegValue);
-					pCamInUse->WrFpgaReg(iDecRegAddr, iDecRegValue);
-					break;
-				}
-			case MAIN_READ_FPGA_REG:
-				{
-					printf("Please input the reg address (Hex. Just number, no \'0x\' needed))\n");
-					char str[10];
-					memset(str,0,sizeof(str));
-					fgets(str,9,stdin);
-					unsigned int iDecRegAddr=hex2dec(str);
-					printf("Your input is %x \n", iDecRegAddr);
-					unsigned int iValue=0;
-					pCamInUse->RdFpgaReg(iDecRegAddr, iValue);
-					printf("reg value is %02x\n", iValue&0xff);
-					break;
-				}
+			
 			case MAIN_EXIT_NORMAL:
 				cam0.ReleaseInterface();
 				CCqUsbCam::CloseUSB();

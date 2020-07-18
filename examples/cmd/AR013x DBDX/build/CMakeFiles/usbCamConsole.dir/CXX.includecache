@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/alan/CqUsbCam_Linux/CqUsbCam/CqUsbCam.h
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/CqUsbCam.h
 stdio.h
 -
 string
@@ -14,21 +14,21 @@ string
 list
 -
 cyusb.h
-/home/alan/CqUsbCam_Linux/CqUsbCam/cyusb.h
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/cyusb.h
 Types.h
-/home/alan/CqUsbCam_Linux/CqUsbCam/Types.h
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/Types.h
 ImgFrame.h
-/home/alan/CqUsbCam_Linux/CqUsbCam/ImgFrame.h
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/ImgFrame.h
 wqueue.h
-/home/alan/CqUsbCam_Linux/CqUsbCam/wqueue.h
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/wqueue.h
 DataCapture.h
-/home/alan/CqUsbCam_Linux/CqUsbCam/DataCapture.h
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/DataCapture.h
 DataProcess.h
-/home/alan/CqUsbCam_Linux/CqUsbCam/DataProcess.h
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/DataProcess.h
 tagSensor.h
-/home/alan/CqUsbCam_Linux/CqUsbCam/tagSensor.h
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/tagSensor.h
 
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/CqUsbCam.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/CqUsbCam.h
 stdio.h
 -
 string
@@ -36,23 +36,23 @@ string
 list
 -
 cyusb.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/cyusb.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/cyusb.h
 Types.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/Types.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/Types.h
 ImgFrame.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/ImgFrame.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/ImgFrame.h
 wqueue.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/wqueue.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/wqueue.h
 DataCapture.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/DataCapture.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/DataCapture.h
 DataProcess.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/DataProcess.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/DataProcess.h
 tagSensor.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/tagSensor.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/tagSensor.h
 
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/DataCapture.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/DataCapture.h
 Types.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/Types.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/Types.h
 string
 -
 stdint.h
@@ -60,21 +60,21 @@ stdint.h
 string.h
 -
 ImgFrame.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/ImgFrame.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/ImgFrame.h
 wqueue.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/wqueue.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/wqueue.h
 cyusb.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/cyusb.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/cyusb.h
 
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/DataProcess.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/DataProcess.h
 ImgFrame.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/ImgFrame.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/ImgFrame.h
 wqueue.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/wqueue.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/wqueue.h
 Types.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/Types.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/Types.h
 
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/ImgFrame.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/ImgFrame.h
 stdint.h
 -
 string.h
@@ -84,19 +84,19 @@ unistd.h
 list
 -
 Types.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/Types.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/Types.h
 
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/SensorCapbablity.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/SensorCapbablity.h
 
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/Types.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/Types.h
 
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/cyusb.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/cyusb.h
 libusb-1.0/libusb.h
 -
 linux/types.h
 -
 
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/tagSensor.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/tagSensor.h
 stdio.h
 -
 stdlib.h
@@ -104,11 +104,11 @@ stdlib.h
 string
 -
 Types.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/Types.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/Types.h
 cyusb.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/cyusb.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/cyusb.h
 
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/wqueue.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/wqueue.h
 pthread.h
 -
 list
@@ -116,13 +116,13 @@ list
 unistd.h
 -
 
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/Pintai.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/Pintai.h
 ../../../../CqUsbCam_Linux/CqUsbCam/CqUsbCam.h
-/home/alan/CqUsbCam_Linux/CqUsbCam/CqUsbCam.h
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/CqUsbCam.h
 vector
 -
 
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/main.cpp
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/main.cpp
 stdio.h
 -
 stdlib.h
@@ -138,9 +138,9 @@ opencv2/highgui/highgui.hpp
 opencv2/imgproc/imgproc.hpp
 -
 ./CqUsbCam/CqUsbCam.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/CqUsbCam.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/CqUsbCam.h
 ./CqUsbCam/SensorCapbablity.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/SensorCapbablity.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/./CqUsbCam/SensorCapbablity.h
 Pintai.h
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/Pintai.h
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x DBDX/Pintai.h
 

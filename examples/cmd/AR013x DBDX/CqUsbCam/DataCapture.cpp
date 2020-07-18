@@ -217,19 +217,24 @@ cq_int32_t CDataCapture::Input(const cq_uint8_t* lpData, const cq_uint32_t dwSiz
 
         if(m_pInData[i]==0x33&&m_pInData[i+1]==0xcc&&m_pInData[i+14]==0x22&&m_pInData[i+15]==0xdd&&b_header==false)
         {
+
 			m_pInputframe->m_timeStamp = m_pInData[i+2];
 			m_pInputframe->m_timeStamp = m_pInData[i + 3];
 			m_pInputframe->m_timeStamp = m_pInData[i + 4];
 			m_pInputframe->m_timeStamp = m_pInData[i + 5];
 
-			memcpy(m_pInputframe->IMUdata,m_pOutData+i+18,14);
+			memcpy(m_pInputframe->IMUdata,m_pInData+i+18,14);
+			// for(int i=0;i<14;i++)
+			// {
+			// 	printf("%x ",m_pInputframe->IMUdata[i]);
+			// }
             i=i+32;
             //memcpy(m_pOutData,m_pInData+i,datalen);          
 
-            memcpy(m_pInputframe->m_imgBuf,m_pOutData+i,m_iWidth*m_iHeight);
+            memcpy(m_pInputframe->m_imgBuf,m_pInData+i,m_iWidth*m_iHeight);
 			
             m_pImgQueue->add(m_pInputframe);
-			memset(m_pInputframe->m_imgBuf,255,m_iWidth*m_iHeight);
+			
             m_lRecvFrameCnt++;
 
             usleep(1);
