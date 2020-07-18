@@ -1,0 +1,5 @@
+/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/CqUsbCam/build/CMakeFiles/edit_cache.dir
+/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/CqUsbCam/build/CMakeFiles/rebuild_cache.dir
+/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/CqUsbCam/build/CMakeFiles/CqUsbCam.dir
+/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/CqUsbCam/build/sensors/CMakeFiles/edit_cache.dir
+/home/alan/CqUsbCam_Linux/examples/cmd/AR013x DBDX/CqUsbCam/build/sensors/CMakeFiles/rebuild_cache.dir
