@@ -48,7 +48,7 @@ public:
 	
 	
 private:
-	cq_uint32_t	m_iCount;				//Êý¾Ý¼ÆÊýÆ÷
+	cq_uint32_t	m_iCount;				//ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	cq_uint32_t m_iWidth;
 	cq_uint32_t m_iHeight;
@@ -56,7 +56,7 @@ private:
 	cq_uint8_t*	m_pInData;	
 	cq_uint8_t*	m_pOutData;	
 	cq_uint8_t*	m_pReadBuff;	
-	
+	int readBuffLen;
 	std::string wname;
 
 

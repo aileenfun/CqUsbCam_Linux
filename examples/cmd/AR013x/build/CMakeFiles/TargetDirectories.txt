@@ -1,3 +1,3 @@
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x/build/CMakeFiles/edit_cache.dir
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x/build/CMakeFiles/rebuild_cache.dir
-/home/alan/CqUsbCam_Linux/examples/cmd/AR013x/build/CMakeFiles/usbCamConsole.dir
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x/build/CMakeFiles/rebuild_cache.dir
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x/build/CMakeFiles/usbCamConsole.dir
+/home/alanliu/CqUsbCam_Linux/examples/cmd/AR013x/build/CMakeFiles/edit_cache.dir
