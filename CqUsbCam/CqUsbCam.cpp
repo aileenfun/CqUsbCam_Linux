@@ -365,7 +365,16 @@ cq_int32_t CCqUsbCam::RdFpgaReg(const cq_uint32_t 	iAddr, cq_uint32_t &iValue)
 		return ERR_NULL_FUNC_POINTER;
 	return m_sensorInUse.RdFpgaReg(m_pUsbHandle, iAddr, iValue);
 }
+cq_int32_t CCqUsbCam::SoftTrigOnce()
+{
+	if(false == m_bIsInterfaceClaimed)
+		return ERR_ITF_NOT_CLAIMED;
 
+	if(NULL==m_sensorInUse.SetMirrorType)
+		return ERR_NULL_FUNC_POINTER;
+		return m_sensorInUse.SoftTrig(m_pUsbHandle);
+
+}
 
 void CCqUsbCam::GetRecvByteCnt(cq_uint64_t& byteCnt)
 {

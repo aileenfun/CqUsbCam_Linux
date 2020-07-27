@@ -1,1 +1,3 @@
-/home/nxb/Desktop/USBCamera/USB30/MyLinuxUsbSdkDemo/CqUsbCam_Linux/examples/cmd/MT9V034/build/CMakeFiles/usbCamConsole.dir
+/home/alan/CqUsbCam_Linux/examples/cmd/MT9V034/build/CMakeFiles/edit_cache.dir
+/home/alan/CqUsbCam_Linux/examples/cmd/MT9V034/build/CMakeFiles/rebuild_cache.dir
+/home/alan/CqUsbCam_Linux/examples/cmd/MT9V034/build/CMakeFiles/usbCamConsole.dir

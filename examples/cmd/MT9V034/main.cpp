@@ -29,8 +29,12 @@
 #define MAIN_PROCTYPE_XY		 	'3'
 
 #define MAIN_CHECK_SPEED 		'd'
-#define MAIN_TRIGMODE_AUTO 		'e'
-#define MAIN_TRIGMODE_FPGA 		'f'
+#define MAIN_TRIGMODE 		'e'
+#define MAIN_TRIGMODE_AUTO 		'1'
+#define MAIN_TRIGMODE_FPGA 		'2'
+#define MAIN_TRIGMODE_SIGNAL 	'3'
+#define MAIN_TRIGMODE_SOFT 		'4'
+#define MAIN_SOFT_TRIG_ONCE 		'f'
 #define MAIN_FPGA_TRIG_FREQ_SELECT	'g'
 #define MAIN_EXPO_VALUE_SELECT	'h'
 #define MAIN_GAIN_VALUE_SELECT	'i'
@@ -293,11 +297,41 @@ int main(int argc, char *argv[])
 					}
 					break;
 				}
-			case MAIN_TRIGMODE_AUTO:
-				pCamInUse->SetTrigMode(TRIGMODE_AUTO);
+			case MAIN_TRIGMODE:
+			{
+				printf("\
+							\'0\':	Auto Trig Mode\n\
+							\'1\':	FPGA Trig Mode\n\
+							\'2\':	Singal Trig Mode\n\
+							\'3\':	Soft Trig Mode\n"\
+					      );
+				int temp=0;
+				char ch=getchar();
+					getchar();
+					printf("Your choice is %c\n", ch);
+					switch(ch)
+					{
+						case '0':
+							temp=TRIGMODE_AUTO;
+						break;
+						case '1':
+						temp=TRIGMODE_FPGA;
+						break;
+						case '2':
+						temp=TRIGMODE_SIGNAL;
+						break;
+						case '3':
+						temp=TRIGMODE_SOFT;
+						break;
+					}
+				pCamInUse->SetTrigMode(temp);
 				break;
-			case MAIN_TRIGMODE_FPGA:
-				pCamInUse->SetTrigMode(TRIGMODE_FPGA);
+			}
+			case MAIN_SOFT_TRIG_ONCE:
+			{
+				printf("Soft tirg sent.\n");
+				pCamInUse->SoftTrigOnce();
+			}
 				break;
 			case MAIN_FPGA_TRIG_FREQ_SELECT:
 				{
