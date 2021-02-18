@@ -19,6 +19,7 @@
 #include "./sensors/MT9V034.h"
 #include "./sensors/AR0144.h"
 #include "./sensors/SC130GS.h"
+#include "./sensors/MT9P031.h"
 
 
 
@@ -44,6 +45,7 @@ CCqUsbCam::CCqUsbCam()
 	RegisterSensor_MT9V034(m_sensorList);
 	RegisterSensor_AR0144(m_sensorList);
 	RegisterSensor_SC130GS(m_sensorList);
+	RegisterSensor_MT9P031(m_sensorList);
 
 }
 

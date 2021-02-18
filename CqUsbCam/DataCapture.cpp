@@ -227,10 +227,10 @@ cq_int32_t CDataCapture::Input(const cq_uint8_t* lpData, const cq_uint32_t dwSiz
 
         if(m_pInData[i]==0x33&&m_pInData[i+1]==0xcc&&m_pInData[i+14]==0x22&&m_pInData[i+15]==0xdd&&b_header==false)
         {
+			memcpy(m_pInputframe->m_imgHead,m_pInData+i,16);
             i=i+16;
-            memcpy(m_pOutData,m_pInData+i,datalen);          
-
-            memcpy(m_pInputframe->m_imgBuf,m_pOutData,m_iWidth*m_iHeight);
+            //memcpy(m_pOutData,m_pInData+i,datalen);          
+            memcpy(m_pInputframe->m_imgBuf,m_pInData+i,m_iWidth*m_iHeight);
 
             m_pImgQueue->add(m_pInputframe);
 

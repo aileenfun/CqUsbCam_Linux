@@ -1,0 +1,3 @@
+/home/pi/CqUsbCam_Linux/examples/cmd/MT9P031/build/CMakeFiles/rebuild_cache.dir
+/home/pi/CqUsbCam_Linux/examples/cmd/MT9P031/build/CMakeFiles/usbCamConsole.dir
+/home/pi/CqUsbCam_Linux/examples/cmd/MT9P031/build/CMakeFiles/edit_cache.dir

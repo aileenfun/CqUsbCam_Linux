@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/examples/cmd/AR013x/build/usbCamConsole",
+            "program": "${workspaceFolder}/examples/cmd/MT9P031/build/usbCamConsole",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

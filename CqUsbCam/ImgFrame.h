@@ -21,15 +21,19 @@ public:
     cq_int64_t m_timeStamp;
 
     cq_uint8_t* m_imgBuf;
-
+    cq_uint8_t trigSource;
+    cq_uint8_t* m_imgHead;
     CImgFrame(const cq_int32_t width, const cq_int32_t height, const cq_int32_t camNum):m_width(width),m_height(height),m_camNum(camNum)
     {
+        m_imgHead=new cq_uint8_t [16];
         m_imgBuf=new cq_uint8_t[height*width];
     }
     ~CImgFrame(void)
     {
         if (m_imgBuf!=NULL)
             delete m_imgBuf;
+        if(m_imgHead!=NULL)
+            delete m_imgHead;
     }
     /*
 	void clone(CImgFrame * frame)

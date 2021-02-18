@@ -107,7 +107,7 @@ void CDataProcess::ThreadFunc()
 #ifdef TEST
 		Disp(imgfrm->m_imgBuf);
 #else
-        m_CallBackFunc(imgfrm->m_imgBuf);
+        m_CallBackFunc(imgfrm);
 #endif
 
 		usleep(10);	
