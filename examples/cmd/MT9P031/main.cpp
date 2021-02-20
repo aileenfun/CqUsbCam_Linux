@@ -1,5 +1,5 @@
-//#define V4L2
-
+#define V4L2
+//https://arcoresearchgroup.wordpress.com/2020/06/02/virtual-camera-for-opencv-using-v4l2loopback/
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
