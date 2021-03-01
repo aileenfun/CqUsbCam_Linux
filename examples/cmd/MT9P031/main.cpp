@@ -1,4 +1,4 @@
-#define V4L2
+//#define V4L2
 //https://arcoresearchgroup.wordpress.com/2020/06/02/virtual-camera-for-opencv-using-v4l2loopback/
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +14,7 @@
 #endif
 
 #include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #include "../../../../CqUsbCam_Linux/CqUsbCam/CqUsbCam.h"
 #include "../../../../CqUsbCam_Linux/CqUsbCam/SensorCapbablity.h"
 

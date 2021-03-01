@@ -14,7 +14,8 @@
  *                      															*
  *                                                                                	*
  \***************************************************************************************/
-
+#define USB_ORDER_OUT 0
+#define USB_ORDER_IN 1
  typedef unsigned long cq_uint64_t;
  typedef unsigned int cq_uint32_t;
  typedef unsigned short cq_uint16_t;
@@ -30,7 +31,37 @@
  typedef bool cq_bool_t;
 
  typedef void (*callback_t)(void *);
+ typedef struct USB_ORDER_S
+{
+	cq_uint8_t			Target;		//0:TGT_DEVICE;1:TGT_INIFC;2:TGT_ENDPT;3:TGT_OTHER
+	cq_uint8_t			ReqType;	//0:REQ_STD;1:REQ_CLASS;2:REQ_VENDOR
+	cq_uint8_t			Direction;	//0:DIR_TO_DEVICE;1:DIR_FROM_DEVICE
+	cq_uint8_t          ReqCode;
+	cq_uint16_t         Value;
+	cq_uint16_t			Index;
 
+	cq_uint8_t*			pData;
+	cq_uint16_t			DataBytes;
+
+	USB_ORDER_S()
+	{
+		Target=0;
+		ReqType=2;
+		Direction=0;
+		ReqCode=0;
+		Value=0;
+		Index=0;
+		pData=nullptr;
+		DataBytes=0;
+	}
+}USB_ORDER,*PUSB_ORDER;
+
+ struct arbFuncStruct
+ {
+	 int FuncNum;
+
+	 USB_ORDER order;
+ };
 
  
 #endif // _TYPES_H_

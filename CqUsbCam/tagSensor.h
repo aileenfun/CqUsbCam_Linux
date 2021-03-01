@@ -60,7 +60,7 @@ typedef cq_int32_t (*RdDevID_t)(cyusb_handle *, cq_uint8_t *, cq_uint32_t &);
 typedef cq_int32_t (*WrDevSN_t)(cyusb_handle *, cq_uint8_t*, cq_uint32_t &);
 typedef cq_int32_t (*RdDevSN_t)(cyusb_handle *, cq_uint8_t *, cq_uint32_t &);
 typedef cq_int32_t (*SoftTrig_t)(cyusb_handle*);
-
+typedef cq_int32_t(*ArbitrFunc_t)(cyusb_handle*, void* lpParam);
 typedef struct 
 {
 	string 				name;
@@ -93,5 +93,6 @@ typedef struct
 	WrDevSN_t 			WrDevSN;
 	RdDevSN_t 			RdDevSN;
 	SoftTrig_t 			SoftTrig;
+	ArbitrFunc_t       ArbitrFunc;
 } tagSensor;
 #endif //_TAGSENSOR_H_
