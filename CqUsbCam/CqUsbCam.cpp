@@ -377,7 +377,16 @@ cq_int32_t CCqUsbCam::SoftTrigOnce()
 		return m_sensorInUse.SoftTrig(m_pUsbHandle);
 
 }
+cq_int32_t CCqUsbCam::ArbFunc(void *p)
+{
+	if(false == m_bIsInterfaceClaimed)
+		return ERR_ITF_NOT_CLAIMED;
 
+	if(NULL==m_sensorInUse.ArbitrFunc)
+		return ERR_NULL_FUNC_POINTER;
+		return m_sensorInUse.ArbitrFunc(m_pUsbHandle,p);
+
+}
 void CCqUsbCam::GetRecvByteCnt(cq_uint64_t& byteCnt)
 {
 	float temp=0;

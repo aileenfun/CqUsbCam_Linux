@@ -79,7 +79,8 @@ pthread_mutex_t mutexCam;
 void Disp(void* frameData)
 {
 	pthread_mutex_lock(&mutexDisp);
-	cv::Mat frame(g_height, g_width, CV_8UC1, (unsigned char*)frameData);	
+	CImgFrame* m_frame=(CImgFrame*)frameData;
+	cv::Mat frame(g_height, g_width, CV_8UC1, (unsigned char*)m_frame->m_imgBuf);
 	cv::imshow("disp",frame);
 	cv::waitKey(10);
 	pthread_mutex_unlock(&mutexDisp);
@@ -152,6 +153,7 @@ void timerFunction(int sig)
 	pthread_mutex_unlock(&mutexCam);
 
 }
+
 void setPWMFreq(int v)
 {
 	int value=v;
@@ -193,17 +195,21 @@ int readAdc(int channel)
 	arbFuncStruct arb;
 	
 	cq_uint8_t  chData[64];
+	memset(chData,0,64);
+	printf("chData:%d\n",chData);
 	arb.order.pData = chData;
 	arb.order.ReqCode = 0xFF;
 	arb.order.DataBytes = 2;
 	arb.order.Direction = USB_ORDER_IN;
 	arb.order.Index = channel & 0xff;
+	pCamInUse->ArbFunc(&arb);
 	cq_uint8_t rxval[2];
 	memcpy(rxval, chData, 2);
 	cq_uint16_t irxval = rxval[0] << 8;
 	irxval += rxval[1];
 	irxval=irxval/16;
 	printf("read ADC:%d\n",irxval);
+	return irxval;
 }
 
 int main(int argc, char *argv[])
@@ -252,6 +258,10 @@ int main(int argc, char *argv[])
 				\'G\':	Read sensor\n\
 				\'H\':	Write FPGA\n\
 				\'I\':	Read FPGA\n\
+				\'K\':	Read ADC\n\
+				\'L\':	set PWM freq\n\
+				\'M\':	set PWM width\n\
+				\'N\':	set light\n\
 				\n\
 				\'z\':	Exit\n"\
 		      );
@@ -530,18 +540,61 @@ int main(int argc, char *argv[])
 				}
 			case MAIN_READ_FPGA_REG:
 				{
-					printf("Please input the reg address (Hex. Just number, no \'0x\' needed))\n");
+					
+					printf("Please input the reg address (Hex. Just number, no needed))\n");
 					char str[10];
 					memset(str,0,sizeof(str));
 					fgets(str, 9,stdin);
-					unsigned int iDecRegAddr=hex2dec(str);
-					printf("Your input is %x \n", iDecRegAddr);
+					unsigned int iDecRegAddr=stoi(str);
 					unsigned int iValue=0;
+					printf("Your input is %x \n", iValue);
+					
 					pCamInUse->RdFpgaReg(iDecRegAddr, iValue);
-					printf("reg value is %02x\n", iValue&0xff);
+					
+					printf("reg value is %d\n", iValue);
 					break;
 				}
-
+			case 'K':
+			{
+				printf("input ADC channel 0 or 1\n");
+				char str[10];
+				memset(str,0,sizeof(str));
+				fgets(str, 9,stdin);
+				unsigned int iDecRegAddr=stoi(str);
+				
+				int rst=readAdc(iDecRegAddr);
+				break;
+			}
+			case 'L':
+			{
+				printf("input PWM Freq:");
+				char str[10];
+				memset(str,0,sizeof(str));
+				fgets(str, 9,stdin);
+				unsigned int iDecRegAddr=stoi(str);
+				setPWMFreq(iDecRegAddr);
+				break;
+			}
+			case 'M':
+			{
+				printf("input PWM Width:");
+				char str[10];
+				memset(str,0,sizeof(str));
+				fgets(str, 9,stdin);
+				unsigned int iDecRegAddr=stoi(str);
+				setPWMWidth(iDecRegAddr);
+				break;
+			}
+			case 'N':
+			{
+				printf("set light 0:off, 1:on");
+				char str[10];
+				memset(str,0,sizeof(str));
+				fgets(str, 9,stdin);
+				unsigned int iDecRegAddr=stoi(str);
+				setLight(iDecRegAddr);
+				break;
+			}
 			case MAIN_EXIT_NORMAL:
 				cam0.ReleaseInterface();
 				CCqUsbCam::CloseUSB();

@@ -5,13 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "sudo": true,
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/examples/cmd/MT9P031/build/usbCamConsole",
+            "program": "${workspaceFolder}/examples/cmd/MT9V034_SR/build/usbCamConsole",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/examples/cmd/MT9V034_SR/build/",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",

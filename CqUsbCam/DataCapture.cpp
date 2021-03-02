@@ -17,7 +17,6 @@
 #include <stdio.h>
 #include "Types.h"
 //#define _USE752
-
 CDataCapture::CDataCapture(const cq_uint32_t iWidth, const cq_uint32_t iHeight)
 {
 
@@ -75,10 +74,10 @@ cq_int32_t CDataCapture::Open()
 		
 		readBuffLen=361472
 		#else
-		readBuffLen=1024*1024*4;
-		
+		//readBuffLen=1024*1024*4;
+		readBuffLen=m_iWidth*m_iHeight*2;
 		#endif
-		m_pReadBuff=new cq_uint8_t[readBuffLen];
+		m_pReadBuff=new cq_uint8_t[1024*1024*4];
 	}
 	catch(const bad_alloc& e)
 	{
@@ -212,9 +211,7 @@ cq_int32_t CDataCapture::Input(const cq_uint8_t* lpData, const cq_uint32_t dwSiz
     iBytes=dwSize+m_iCount;//m_iCount上一次拷贝剩余数据
     cq_bool_t b_header=false/*, b_imu=false*/;
     cq_uint32_t datalen=m_iWidth*m_iHeight+16;// 16 added by qbc
-
     memcpy(m_pInData+m_iCount,lpData,dwSize);
-
     for(cq_uint32_t i=0;i<iBytes;++i)
     {
         
@@ -222,6 +219,7 @@ cq_int32_t CDataCapture::Input(const cq_uint8_t* lpData, const cq_uint32_t dwSiz
         {
             m_iCount = iBytes - i;
             memcpy(m_pInData, m_pInData + i, m_iCount);
+			
             return 0;
         }
 
@@ -231,13 +229,13 @@ cq_int32_t CDataCapture::Input(const cq_uint8_t* lpData, const cq_uint32_t dwSiz
             i=i+16;
             //memcpy(m_pOutData,m_pInData+i,datalen);          
             memcpy(m_pInputframe->m_imgBuf,m_pInData+i,m_iWidth*m_iHeight);
-
             m_pImgQueue->add(m_pInputframe);
 
             m_lRecvFrameCnt++;
 
             usleep(1);
-            }
+        }
+
 
     }
     return 0;
