@@ -76,11 +76,35 @@ unsigned int g_height=480;
 pthread_mutex_t mutexDisp;
 pthread_mutex_t mutexCam;
 
+
+cq_uint64_t getTimeStamp64(cq_uint8_t* p)
+{
+	cq_uint64_t timestamp = 0;
+	int j = 2;
+	for (int i = 7; i >= 4; i--)
+	{
+		cq_uint64_t temp = p[j];
+		j = j + 1;
+		timestamp += temp<< i * 8;
+	}
+	j = 10;
+	for (int i = 3; i >= 0; i--)
+	{
+		cq_uint64_t temp = p[j];
+		timestamp += temp<< i * 8;
+		j = j + 1;
+	}
+	return timestamp;
+}
+
 void Disp(void* frameData)
 {
 	pthread_mutex_lock(&mutexDisp);
 	CImgFrame* m_frame=(CImgFrame*)frameData;
-	cv::Mat frame(g_height, g_width, CV_8UC1, (unsigned char*)m_frame->m_imgBuf);
+	cq_uint64_t timestamp = getTimeStamp64(m_frame->m_imgHead);
+	//printf("img time stamp:%d", timestamp);
+	//printf("disp h:%d,disp w:%d",m_frame->m_height,m_frame->m_width);
+	cv::Mat frame(m_frame->m_height, m_frame->m_width, CV_8UC1, (unsigned char*)m_frame->m_imgBuf);
 	cv::imshow("disp",frame);
 	cv::waitKey(10);
 	pthread_mutex_unlock(&mutexDisp);

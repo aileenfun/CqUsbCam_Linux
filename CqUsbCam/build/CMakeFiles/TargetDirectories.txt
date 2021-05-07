@@ -1,5 +1,5 @@
-/home/alan/CqUsbCam_Linux/CqUsbCam/build/CMakeFiles/edit_cache.dir
-/home/alan/CqUsbCam_Linux/CqUsbCam/build/CMakeFiles/rebuild_cache.dir
-/home/alan/CqUsbCam_Linux/CqUsbCam/build/CMakeFiles/CqUsbCam.dir
-/home/alan/CqUsbCam_Linux/CqUsbCam/build/sensors/CMakeFiles/edit_cache.dir
-/home/alan/CqUsbCam_Linux/CqUsbCam/build/sensors/CMakeFiles/rebuild_cache.dir
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/build/CMakeFiles/rebuild_cache.dir
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/build/CMakeFiles/CqUsbCam.dir
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/build/CMakeFiles/edit_cache.dir
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/build/sensors/CMakeFiles/rebuild_cache.dir
+/home/alanliu/CqUsbCam_Linux/CqUsbCam/build/sensors/CMakeFiles/edit_cache.dir

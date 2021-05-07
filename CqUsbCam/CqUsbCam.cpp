@@ -159,7 +159,17 @@ cq_int32_t  CCqUsbCam::StartCap(const cq_uint32_t iHeight, const cq_uint32_t iWi
 		return ERR_IS_CAPTURING;
 
 	m_pImgQueue=new wqueue<CImgFrame*>;
-	m_pDataCap=new CDataCapture(iWidth, iHeight);
+	cq_uint32_t h,w,temp;
+	RdFpgaReg(1, temp);
+	h = temp << 8;
+	RdFpgaReg(2, temp);
+	h = temp + h;
+	RdFpgaReg(3, temp);
+	w = temp << 8;
+	RdFpgaReg(4, temp);
+	w = temp + w;
+printf("w%d,h%d",w,h);
+	m_pDataCap=new CDataCapture(w, h);
 	m_pDataProc=new CDataProcess();
 
 	assert(NULL!=m_pImgQueue);

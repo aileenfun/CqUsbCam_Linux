@@ -74,8 +74,9 @@ cq_int32_t CDataCapture::Open()
 		
 		readBuffLen=361472
 		#else
-		//readBuffLen=1024*1024*4;
-		readBuffLen=m_iWidth*m_iHeight*2;
+		readBuffLen=1024*1024*4;
+		//readBuffLen=m_iWidth*m_iHeight*2;
+		
 		#endif
 		m_pReadBuff=new cq_uint8_t[1024*1024*4];
 	}
@@ -188,7 +189,10 @@ void CDataCapture::ThreadFunc()
 	pthread_mutex_lock(&m_mutexThread);
 	while (true==m_bCapture)
 	{
-		
+		transferred=m_iWidth*m_iHeight+512;
+		if(transferred>3145728)
+		transferred=3145728;
+		readBuffLen=transferred;
         int rst=cyusb_bulk_transfer(m_pUsbHandle, endpoint/*3.0 0x81, 2.0 0x86*/, m_pReadBuff, readBuffLen, &transferred,100);
         if(transferred>0)
 		{
@@ -198,6 +202,7 @@ void CDataCapture::ThreadFunc()
 		else
 		{
 			printf("read Usb error:%d",rst);
+			printf("w:%d,h:%d",m_iWidth,m_iHeight);
 		}
 		usleep(1);//deleted by qbc
 	}
@@ -226,9 +231,17 @@ cq_int32_t CDataCapture::Input(const cq_uint8_t* lpData, const cq_uint32_t dwSiz
         if(m_pInData[i]==0x33&&m_pInData[i+1]==0xcc&&m_pInData[i+14]==0x22&&m_pInData[i+15]==0xdd&&b_header==false)
         {
 			memcpy(m_pInputframe->m_imgHead,m_pInData+i,16);
-            i=i+16;
-            //memcpy(m_pOutData,m_pInData+i,datalen);          
-            memcpy(m_pInputframe->m_imgBuf,m_pInData+i,m_iWidth*m_iHeight);
+
+			m_pInputframe->m_height = m_pInData[i + 6]<<8;
+			m_pInputframe->m_height += m_pInData[i+7];
+			m_pInputframe->m_width= m_pInData[i + 8]<<8;
+			m_pInputframe->m_width += m_pInData[i + 9];
+			//printf("w%d,h%d\n",m_pInputframe->m_width,m_pInputframe->m_height);
+
+                
+	    i=i+16;
+            //memcpy(m_pOutData,m_pInData+i,datalen);
+	    memcpy(m_pInputframe->m_imgBuf,m_pInData+i,m_pInputframe->m_width*m_pInputframe->m_height);
             m_pImgQueue->add(m_pInputframe);
 
             m_lRecvFrameCnt++;
